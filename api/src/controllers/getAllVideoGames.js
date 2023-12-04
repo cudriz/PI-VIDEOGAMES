@@ -9,19 +9,19 @@ const getAllVideoGamesApi = async () => {
     `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df`
   );
   const response2 = await axios.get(
-    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df`
+    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df&page=2`
   );
   const response3 = await axios.get(
-    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df`
+    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df&page=3`
   );
   const response4 = await axios.get(
-    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df`
+    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df&page=4`
   );
   const response5 = await axios.get(
-    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df`
+    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df&page=5`
   );
   const response6 = await axios.get(
-    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df`
+    `${URL}?key=0b0b6919d408490ca2ed1f45e46ec0df&page=6`
   );
 
   const info = response.data;

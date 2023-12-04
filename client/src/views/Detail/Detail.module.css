@@ -1,0 +1,24 @@
+.detailsContainer {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100%;
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #3b3a3a;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin-top: 90px;
+
+}
+
+.img {
+    max-width: 100%;
+    border-radius: 5px; 
+  }
+  

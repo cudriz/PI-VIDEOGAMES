@@ -1,0 +1,26 @@
+.container {
+  background-image: url("https://fullsync.co.uk/wp-content/uploads/2023/11/DALL%C2%B7E-2023-11-27-21.00.42-A-dynamic-and-engaging-header-image-for-an-article-titled-Best-Sports-Games-Released-in-2023.-The-image-should-feature-a-collage-of-various-sports-r.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+}
+
+.button {
+  font-size: 2em;
+  color: white;
+  text-decoration: none;
+  margin-top: 200px;
+}
