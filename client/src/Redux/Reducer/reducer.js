@@ -11,17 +11,21 @@ import {
 } from "../Actions/actions";
 
 const initialState = {
+  
   allVideoGames: [],
-  allVideogamesBackUp: [],
-  allVideogamesBackUp2: [],
+  allVideogamesBackUp: [], 
   loadingState: true,
   currentPage: 0,
   allGenres: [],
   videoGameId: [],
+  selectedGenre: null,
+  selectedOrigin: "All", 
+  searchQuery: "", 
+  orderByRating: null, 
 };
 
 const rootReducer = (state = initialState, action) => {
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 12;
 
   switch (action.type) {
     case GET_VIDEO_GAMES:
@@ -29,24 +33,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allVideoGames: [...action.payload].slice(0, ITEMS_PER_PAGE),
         allVideogamesBackUp: action.payload,
-        allVideogamesBackUp2: action.payload,
-        loadingState: false,
-      };
-    case SEARCH_GAME:
-      const search = action.payload.toLowerCase();
-      const VideoGameFilter = state.allVideogamesBackUp.filter(
-        (game) => game && game.name && game.name.toLowerCase().includes(search)
-      );
-      return {
-        ...state,
-        allVideoGames: VideoGameFilter.slice(0, ITEMS_PER_PAGE),
-        currentPage: 0,
-      };
-
-    case GET_VIDEO_GAME_ID:
-      return {
-        ...state,
-        videoGameId: action.payload,
         loadingState: false,
       };
     case GET_GENRES:
@@ -54,6 +40,24 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allGenres: action.payload,
       };
+    case GET_VIDEO_GAME_ID:
+      return {
+        ...state,
+        videoGameId: action.payload,
+        loadingState: false,
+      };
+
+      case SEARCH_GAME:
+        const search = action.payload.toLowerCase();
+        const VideoGameFilter = state.allVideogamesBackUp.filter(
+          (game) => game && game.name && game.name.toLowerCase().includes(search)
+        );
+        return {
+          ...state,
+          allVideogamesBackUp: VideoGameFilter,
+          allVideoGames: VideoGameFilter.slice(0, ITEMS_PER_PAGE),
+          currentPage: 0,
+        };
     case PAGINATED:
       const next_page = state.currentPage + 1;
       const prev_page = state.currentPage - 1;
@@ -82,17 +86,18 @@ const rootReducer = (state = initialState, action) => {
           currentPage: prev_page,
         };
       }
-    case "NUMBER-PAGE":
-      const index = action.payload * ITEMS_PER_PAGE;
-      return {
-        ...state,
-        allVideoGames: [...state.allVideogamesBackUp].slice(
-          index,
-          index + ITEMS_PER_PAGE
-        ),
-        currentPage: action.payload,
-      };
-
+      return state;
+      case "NUMBER-PAGE":
+        const index = action.payload * ITEMS_PER_PAGE;
+        return {
+          ...state,
+          allVideoGames: [...state.allVideogamesBackUp].slice(
+            index,
+            index + ITEMS_PER_PAGE
+          ),
+          currentPage: action.payload,
+        };
+  
     case FILTER_BY_GENRES:
       const selectedGenre = action.payload;
       const filteredGameByGenre = state.allVideogamesBackUp.filter(
@@ -105,67 +110,73 @@ const rootReducer = (state = initialState, action) => {
         selectedGenre,
       };
 
-    case FILTER_ORIGIN:
-      let filterorigin;
-      if (action.payload === "All") {
-        filterorigin = state.allVideogamesBackUp;
-      }
+      case FILTER_ORIGIN:
+        let filterorigin;
+        if (action.payload === "All") {
+          filterorigin = state.allVideogamesBackUp;
+        }
+      
+        if (action.payload === "Local") {
+          filterorigin = state.allVideogamesBackUp.filter(
+            (allVideoGames) =>
+              allVideoGames && typeof allVideoGames.id === "string"
+          );
+        }
+      
+        if (action.payload === "Api") {
+          filterorigin = state.allVideogamesBackUp.filter(
+            (allVideoGames) =>
+              allVideoGames && typeof allVideoGames.id === "number"
+          );
+        }
+      
+        return {
+          ...state,
+          allVideoGames: filterorigin.slice(0, ITEMS_PER_PAGE), 
+          selectedOrigin: action.payload,
+          loadingState: false,
+        };
+      
 
-      if (action.payload === "Local") {
-        filterorigin = state.allVideogamesBackUp.filter(
-          (allVideoGames) =>
-            allVideoGames && typeof allVideoGames.id === "string"
-        );
-      }
-
-      if (action.payload === "Api") {
-        filterorigin = state.allVideogamesBackUp.filter(
-          (allVideoGames) =>
-            allVideoGames && typeof allVideoGames.id === "number"
-        );
+    case ORDER_BY_RATING:
+      const orderByRating = action.payload;
+      let sortedGamesByRating;
+      if (orderByRating === "Ascendente") {
+        sortedGamesByRating = [
+          ...state.allVideoGames.sort((a, b) => a.rating - b.rating),
+        ];
+      } else {
+        sortedGamesByRating = [
+          ...state.allVideoGames.sort((a, b) => b.rating - a.rating),
+        ];
       }
       return {
         ...state,
-        allVideoGames: filterorigin,
-        loadingState: false,
+        allVideoGames: sortedGamesByRating,
+        orderByRating,
       };
 
-    case ORDER_BY_RATING:
-      if (action.payload === "Ascendente") {
-        return {
-          ...state,
-          allVideoGames: [
-            ...state.allVideoGames.sort((a, b) => a.rating - b.rating),
-          ],
-        };
-      } else {
-        return {
-          ...state,
-          allVideoGames: [
-            ...state.allVideoGames.sort((a, b) => b.rating - a.rating),
-          ],
-        };
-      }
-
     case ORDER_CARDS:
-      let order = [];
-      if (action.payload === "AZ") {
-        order = [...state.allVideogamesBackUp]
-          .filter((game) => game && game.name) // Filtra aquellos elementos sin name
+      const orderByName = action.payload;
+      let orderedGamesByName;
+      if (orderByName === "AZ") {
+        orderedGamesByName = [...state.allVideogamesBackUp]
+          .filter((game) => game && game.name)
           .sort((prev, next) =>
             prev.name.toLowerCase().localeCompare(next.name.toLowerCase())
           );
       } else {
-        order = [...state.allVideogamesBackUp]
-          .filter((game) => game && game.name) // Filtra aquellos elementos sin name
+        orderedGamesByName = [...state.allVideogamesBackUp]
+          .filter((game) => game && game.name)
           .sort((prev, next) =>
             next.name.toLowerCase().localeCompare(prev.name.toLowerCase())
           );
       }
       return {
         ...state,
-        allVideoGames: order.slice(0, ITEMS_PER_PAGE),
+        allVideoGames: orderedGamesByName.slice(0, ITEMS_PER_PAGE),
         currentPage: 0,
+        orderByName,
       };
 
     case "SET_LOADING":

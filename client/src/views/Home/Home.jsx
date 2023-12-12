@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Cards from "../../components/Cards/Cards";
 import {
@@ -14,6 +14,9 @@ import {
 } from "../../Redux/Actions/actions";
 import { FiltrosBar } from "../../components/Filters/filters";
 import styles from "./Home.module.css";
+
+
+
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -45,15 +48,17 @@ const Home = () => {
   };
 
   useEffect(() => {
-    dispatch(setLoading());
-    dispatch(goToPageAction(0));
-    dispatch(getVideoGames());
-    dispatch(getGenres());
-  }, [dispatch]);
+    if (!allGames.length) {
+      dispatch(setLoading());
+      dispatch(goToPageAction(0));
+      dispatch(getVideoGames());
+      dispatch(getGenres());
+    }
+  }, [dispatch,loadingState, currentPage]);
 
-  const paginate = (event) => {
+  const paginate = useCallback((event) => {
     dispatch(paginatedGame(event.target.name));
-  };
+  }, [dispatch]);
 
   const goToPage = (page) => {
     dispatch(paginatedGame(page));

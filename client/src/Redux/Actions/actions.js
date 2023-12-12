@@ -95,6 +95,7 @@ export function searchGames(name) {
   };
 }
 
+
 export const filterByGenres = (genres) => {
   return {
     type: FILTER_BY_GENRES,
