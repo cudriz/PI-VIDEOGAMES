@@ -9,6 +9,7 @@ export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
 export const FILTER_ORIGIN = "FILTER_ORIGIN";
 export const ORDER_BY_RATING = "ORDER_BY_RATING,";
 export const ORDER_CARDS = "ORDER_CARDS";
+export const POST_GAME = "POST_GAME";
 
 export const getVideoGames = () => {
   return async function (dispatch) {
@@ -28,7 +29,9 @@ export const getVideoGames = () => {
 export function getById(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/videogames/${id}`);
+      const response = await axios.get(
+        `http://localhost:3001/videogames/${id}`
+      );
       const videoGameID = response.data;
       return dispatch({
         type: GET_VIDEO_GAME_ID,
@@ -95,11 +98,10 @@ export function searchGames(name) {
   };
 }
 
-
 export const filterByGenres = (genres) => {
   return {
     type: FILTER_BY_GENRES,
-    payload: genres
+    payload: genres,
   };
 };
 
@@ -121,5 +123,23 @@ export const orderCards = (order) => {
   return {
     type: ORDER_CARDS,
     payload: order,
+  };
+};
+
+export const postGame = (state) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/videogames/",
+        state
+      );
+      dispatch({
+        type: POST_GAME,
+        payload: response.data,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   };
 };

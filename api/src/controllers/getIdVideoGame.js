@@ -37,7 +37,6 @@ const getIdVideoGame = async (id, source) => {
   }
   if (source === "bdd") {
     game = await Videogame.findByPk(id);
-    console.log("id de la bdd", game);
 
     if (!game) {
       return {

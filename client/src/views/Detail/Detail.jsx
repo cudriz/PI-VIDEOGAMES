@@ -9,6 +9,7 @@ const Detail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const game = useSelector((state) => state.videoGameId);
+  console.log(game, `propiedades del videogame id ${id}`);
   const loadingState = useSelector((state) => state.loadingState);
 
   useEffect(() => {
@@ -25,9 +26,9 @@ const Detail = () => {
             <h2>id:{game.id}</h2>
             <h2>Name: {game.name}</h2>
             <h2>rating:{game.rating}</h2>
-            <h2>released:{game.released}</h2>
+            <h2>Freleaseds:{game.released || game.freleaseds}</h2>
             <h2>Description: {game.description}</h2>
-            <h2>Genres: {game.genres}</h2>
+            <h2>Genres: {game.genres }</h2>
             <h2>Platforms: {game.platforms}</h2>
           </div>
         ) : (
