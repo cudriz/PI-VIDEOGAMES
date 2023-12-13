@@ -80,6 +80,7 @@ const Home = () => {
         handleFilterOrigin={handleFilterOrigin}
         getGamesOrderRating={getGamesOrderRating}
         gamesOrderAll={gamesOrderAll}
+        dispatch={dispatch}
       />
 
       <div className={styles.home}>

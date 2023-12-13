@@ -9,6 +9,7 @@ import {
   ORDER_BY_RATING,
   ORDER_CARDS,
   POST_GAME,
+  RESET_STATE,
 } from "../Actions/actions";
 
 const initialState = {
@@ -181,6 +182,11 @@ const rootReducer = (state = initialState, action) => {
         allVideoGames: orderedGamesByName.slice(0, ITEMS_PER_PAGE),
         currentPage: 0,
         orderByName,
+      };
+    case RESET_STATE:
+      return {
+        ...state,
+        loadingState: false,
       };
 
     case "SET_LOADING":

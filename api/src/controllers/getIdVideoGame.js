@@ -40,7 +40,7 @@ const getIdVideoGame = async (id, source) => {
 
     if (!game) {
       return {
-        error: `Videogame con id ${id} no se encuentra en la base de dsatos.`,
+        error: `Videogame con id ${id} no se encuentra en la base de datos.`,
       };
     }
     return game;

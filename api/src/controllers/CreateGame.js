@@ -8,41 +8,31 @@ const createNewGame = async (
   freleaseds,
   rating,
   genres,
-  description,
-  
+  description
 ) => {
   const newVideoGame = await Videogame.create({
     name,
-  platforms,
-  background_image,
-  freleaseds,
-  rating,
-  genres,
-  description,
+    platforms,
+    background_image,
+    freleaseds,
+    rating,
+    genres,
+    description,
   });
-
-//   genres.forEach(async (g) => {
-//     const genresDb = await Genres.findOne({
-//       where: { name: g },
-//     });
-//     await newVideoGame.addGenres(genresDb);
-//   });
-
-//   return newVideoGame;
-// };
-
-for (const genreName of genres) {
+ // Itera sobre los géneros del juego
+  for (const genreName of genres) {
+    // Busca en la tabla Genres un registro con el nombre del género actual
     const genresDb = await Genres.findOne({
       where: { name: genreName },
     });
 
     if (genresDb) {
+      // Asocia el nuevo videojuego con el género encontrado
       await newVideoGame.addGenres(genresDb);
     }
   }
 
   return newVideoGame;
 };
-
 
 module.exports = createNewGame;

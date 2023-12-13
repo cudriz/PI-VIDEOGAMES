@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./Filters.module.css";
+import { resetState } from "../../Redux/Actions/actions";
 
 export const FiltrosBar = ({
   allGenres,
@@ -7,10 +8,15 @@ export const FiltrosBar = ({
   handleFilterOrigin,
   getGamesOrderRating,
   gamesOrderAll,
+  dispatch,
 }) => {
+  const handleResetState = () => {
+    dispatch(resetState());
+  };
   return (
     <div className={style.filter}>
-      <div>Genero
+      <div>
+        Genero
         <select name="genres" id="" onChange={(e) => handleFilter(e)}>
           <option value="">Elija Genero</option>
           {allGenres &&
@@ -52,6 +58,9 @@ export const FiltrosBar = ({
           <option value="AZ">A-Z</option>
           <option value="ZA">Z-A</option>
         </select>
+      </div>
+      <div>
+        <button className={style.reset}onClick={handleResetState}>Reset State</button>
       </div>
     </div>
   );

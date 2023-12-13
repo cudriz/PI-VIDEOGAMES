@@ -7,12 +7,15 @@ const getGenresVideoGame = async () => {
 
   const { data } = await axios.get(URL);
   if (data.results && data.results.length > 0) {
+     // Itera sobre los resultados de la API (géneros)
     data.results.forEach((gen) => {
+       // Busca o crea un nuevo registro en la tabla Genres con el nombre del género actual
       Genres.findOrCreate({
         where: { name: gen.name },
       });
     });
   }
+   // Obtiene todos los géneros almacenados en la base de datos después de la actualización
   const genresDB = await Genres.findAll();
 
   return genresDB;

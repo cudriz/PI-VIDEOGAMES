@@ -3,6 +3,7 @@ import Card from "../Card/Card";
 import style from './Cards.module.css'
 
 const Cards = ({ cards }) => {
+  // console.log(cards);
   return (
     <div className={style.container}>
       {cards.map((game) => 

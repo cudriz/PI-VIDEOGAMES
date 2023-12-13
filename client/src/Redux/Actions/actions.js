@@ -10,6 +10,7 @@ export const FILTER_ORIGIN = "FILTER_ORIGIN";
 export const ORDER_BY_RATING = "ORDER_BY_RATING,";
 export const ORDER_CARDS = "ORDER_CARDS";
 export const POST_GAME = "POST_GAME";
+export const RESET_STATE = "RESET_STATE";
 
 export const getVideoGames = () => {
   return async function (dispatch) {
@@ -33,6 +34,7 @@ export function getById(id) {
         `http://localhost:3001/videogames/${id}`
       );
       const videoGameID = response.data;
+      console.log(videoGameID, "action de id");
       return dispatch({
         type: GET_VIDEO_GAME_ID,
         payload: videoGameID,
@@ -141,5 +143,11 @@ export const postGame = (state) => {
     } catch (error) {
       console.log(error);
     }
+  };
+};
+
+export const resetState = () => {
+  return {
+    type: RESET_STATE,
   };
 };
